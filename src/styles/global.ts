@@ -41,6 +41,10 @@ export const GlobalStyles = createGlobalStyle`
          url('${GeneralSansSemiboldTtf}') format('truetype');
   }
 
+  :root {
+    font-size: 62.5%;
+  }
+
   * {
     box-sizing: border-box;
     font-family: 'GeneralSans', sans-serif;
