@@ -4,6 +4,7 @@ interface TextProps {
   variant: 'sm' | 'md' | 'lg';
   color?: string;
   isBold?: boolean;
+  fontWeight?: number;
 }
 
 const smVariantCSS = css`
@@ -36,4 +37,6 @@ export const Text = styled.span<TextProps>`
   color: ${({ color, theme }) => color || theme.colors.gray[500]};
 
   ${({ isBold }) => isBold && isBoldCSS};
+
+  font-weight: ${({ fontWeight }) => fontWeight && fontWeight};
 `;
