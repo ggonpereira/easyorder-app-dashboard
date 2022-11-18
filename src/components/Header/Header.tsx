@@ -2,8 +2,7 @@ import { Typography } from '../Typography';
 import * as S from './Header.styles';
 import { Heading } from '../Heading';
 import { useTheme } from 'styled-components';
-
-import logo from '../../assets/images/logo.svg';
+import { Logo } from '../../assets/images/icons';
 
 export const Header = () => {
   const theme = useTheme();
@@ -21,7 +20,7 @@ export const Header = () => {
         </S.PageDetails>
 
         <S.AppIllustration>
-          <img src={logo} alt="EasyOrder App" />
+          <Logo />
 
           <S.TextSection>
             <span>
