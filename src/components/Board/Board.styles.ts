@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+interface ContainerProps {
+  shouldCentralize: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
   align-items: center;
   border-radius: 1.6rem;
   border: 0.1rem solid rgba(204, 204, 204, 0.4);
@@ -8,6 +12,8 @@ export const Container = styled.div`
   flex-direction: column;
   flex: 1;
   gap: 2.4rem;
+  justify-content: ${({ shouldCentralize }) =>
+    shouldCentralize ? 'center' : undefined};
   padding: 1.6rem;
 `;
 
