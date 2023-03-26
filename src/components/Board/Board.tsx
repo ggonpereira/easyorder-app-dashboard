@@ -4,6 +4,7 @@ import { cancelOrder } from '../../services/orders';
 import { Order } from '../../types/Order';
 import { OrderModal } from '../OrderModal';
 import { Typography } from '../Typography';
+import { toast } from 'react-toastify';
 import * as S from './Board.styles';
 
 interface BoardProps {
@@ -33,10 +34,17 @@ export const Board = ({ icon, title, orders }: BoardProps) => {
     if (currentOrder?._id) {
       setIsLoading(true);
 
-      await cancelOrder({ orderId: currentOrder?._id });
+      try {
+        await cancelOrder({ orderId: currentOrder?._id });
 
-      setIsLoading(false);
-      handleCloseOrderModal();
+        handleCloseOrderModal();
+        toast.success(`The order of table ${currentOrder.table} was canceled.`);
+      } catch (error) {
+        console.error(error);
+        toast.error('An error occurred. Try again later.');
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 

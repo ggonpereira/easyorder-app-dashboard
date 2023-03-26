@@ -1,3 +1,5 @@
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { ThemeProvider } from 'styled-components';
 import { Header } from './components/Header';
 import { Orders } from './components/Orders';
@@ -9,5 +11,11 @@ export const App = () => (
     <GlobalStyles />
     <Header />
     <Orders />
+    <ToastContainer
+      position="bottom-center"
+      style={{
+        fontSize: '1.6rem',
+      }}
+    />
   </ThemeProvider>
 );
