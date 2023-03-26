@@ -28,7 +28,7 @@ export const Board = ({ icon, title, orders }: BoardProps) => {
   };
 
   return (
-    <S.Container shouldCentralize={orders.length === 0}>
+    <S.Container>
       {isModalOpened && currentOrder && (
         <OrderModal
           order={currentOrder}

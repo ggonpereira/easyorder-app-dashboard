@@ -57,7 +57,9 @@ export const OrderModal = ({ handleCloseModal, order }: OrderModalProps) => {
             <S.OrderProduct>
               <S.ProductImage>
                 <img
-                  src={`http://localhost:3001/uploads/${product.product.imagePath}`}
+                  src={`${import.meta.env.BASE_URL}/uploads/${
+                    product.product.imagePath
+                  }`}
                   alt={product.product.name}
                 />
               </S.ProductImage>

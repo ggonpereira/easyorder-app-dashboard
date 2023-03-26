@@ -424,9 +424,9 @@ export const Close = () => (
     <path
       d="M16 8L12 12M12 12L16 16M12 12L8 8M12 12L8 16"
       stroke="#323232"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
