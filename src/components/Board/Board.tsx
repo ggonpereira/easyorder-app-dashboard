@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTheme } from 'styled-components';
+import { cancelOrder } from '../../services/orders';
 import { Order } from '../../types/Order';
 import { OrderModal } from '../OrderModal';
 import { Typography } from '../Typography';
@@ -14,6 +15,7 @@ interface BoardProps {
 export const Board = ({ icon, title, orders }: BoardProps) => {
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const theme = useTheme();
 
@@ -27,12 +29,25 @@ export const Board = ({ icon, title, orders }: BoardProps) => {
     setCurrentOrder(null);
   };
 
+  const handleCancelOrder = async () => {
+    if (currentOrder?._id) {
+      setIsLoading(true);
+
+      await cancelOrder({ orderId: currentOrder?._id });
+
+      setIsLoading(false);
+      handleCloseOrderModal();
+    }
+  };
+
   return (
     <S.Container>
       {isModalOpened && currentOrder && (
         <OrderModal
           order={currentOrder}
-          handleCloseModal={handleCloseOrderModal}
+          onCloseModal={handleCloseOrderModal}
+          onCancelOrder={handleCancelOrder}
+          isLoading={isLoading}
         />
       )}
 

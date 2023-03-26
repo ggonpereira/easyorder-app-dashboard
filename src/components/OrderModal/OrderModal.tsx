@@ -1,28 +1,21 @@
 import { useTheme } from 'styled-components';
 import { Close } from '../../assets/images/icons';
-import { Order } from '../../types/Order';
-import { formatToLocalePrice } from '../../utils/functions';
+import {
+  formatActionButtonMessage,
+  formatOrderStatus,
+  formatToLocalePrice,
+} from '../../utils/functions';
 import { Heading } from '../Heading';
 import { Typography } from '../Typography';
+import { OrderModalProps } from './interfaces';
 import * as S from './OrderModal.styles';
 
-interface OrderModalProps {
-  handleCloseModal: () => void;
-  order: Order;
-}
-
-const formatOrderStatus = (status: string) => {
-  switch (status) {
-    case 'DONE':
-      return '✅ Done!';
-    case 'IN_PRODUCTION':
-      return '👨‍🍳 In production';
-    case 'WAITING':
-      return '🕑 On queue';
-  }
-};
-
-export const OrderModal = ({ handleCloseModal, order }: OrderModalProps) => {
+export const OrderModal = ({
+  onCancelOrder,
+  onCloseModal,
+  order,
+  isLoading,
+}: OrderModalProps) => {
   const theme = useTheme();
 
   const orderTotalPrice = order.products.reduce(
@@ -31,11 +24,11 @@ export const OrderModal = ({ handleCloseModal, order }: OrderModalProps) => {
   );
 
   return (
-    <S.Overlay onClick={handleCloseModal}>
+    <S.Overlay onClick={onCloseModal}>
       <S.Container onClick={(e) => e.stopPropagation()}>
         <S.Header>
           <Heading variant="h4">Table {order.table}</Heading>
-          <S.IconWrapper onClick={handleCloseModal}>
+          <S.IconWrapper onClick={onCloseModal}>
             <Close />
           </S.IconWrapper>
         </S.Header>
@@ -54,10 +47,10 @@ export const OrderModal = ({ handleCloseModal, order }: OrderModalProps) => {
           </Typography>
 
           {order.products.map((product) => (
-            <S.OrderProduct>
+            <S.OrderProduct key={product._id}>
               <S.ProductImage>
                 <img
-                  src={`${import.meta.env.BASE_URL}/uploads/${
+                  src={`${import.meta.env.VITE_BASE_URL}/uploads/${
                     product.product.imagePath
                   }`}
                   alt={product.product.name}
@@ -88,11 +81,16 @@ export const OrderModal = ({ handleCloseModal, order }: OrderModalProps) => {
         </S.OrderOverview>
 
         <S.ActionsArea>
-          <S.Button type="button" variant="primary">
-            ✅ Complete Order
+          <S.Button type="button" variant="primary" disabled={isLoading}>
+            {formatActionButtonMessage(order.status)}
           </S.Button>
 
-          <S.Button type="button" variant="secondary">
+          <S.Button
+            type="button"
+            variant="secondary"
+            onClick={onCancelOrder}
+            disabled={isLoading}
+          >
             Cancel Order
           </S.Button>
         </S.ActionsArea>

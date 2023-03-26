@@ -79,9 +79,16 @@ export const OrderProduct = styled.div`
 `;
 
 export const ProductImage = styled.div`
-  height: 4rem;
+  height: 3rem;
   object-fit: cover;
   width: 4.8rem;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.6rem;
+  }
 `;
 
 export const ProductNameAndPrice = styled.div`
@@ -113,4 +120,9 @@ export const Button = styled.button<ButtonProps>`
 
   ${({ variant }) => variant === 'primary' && primaryButtonCSS}
   ${({ variant }) => variant === 'secondary' && secondaryButtonCSS}
+
+  :disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
