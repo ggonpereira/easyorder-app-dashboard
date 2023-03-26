@@ -33,18 +33,10 @@ export const Board = ({ icon, title, orders }: BoardProps) => {
   const handleCancelOrder = async () => {
     if (currentOrder?._id) {
       setIsLoading(true);
+      await cancelOrder({ orderId: currentOrder?._id });
 
-      try {
-        await cancelOrder({ orderId: currentOrder?._id });
-
-        handleCloseOrderModal();
-        toast.success(`The order of table ${currentOrder.table} was canceled.`);
-      } catch (error) {
-        console.error(error);
-        toast.error('An error occurred. Try again later.');
-      } finally {
-        setIsLoading(false);
-      }
+      handleCloseOrderModal();
+      toast.success(`The order of table ${currentOrder.table} was canceled.`);
     }
   };
 
