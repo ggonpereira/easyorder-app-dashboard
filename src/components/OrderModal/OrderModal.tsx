@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useTheme } from 'styled-components';
 import { Close } from '../../assets/images/icons';
 import {
@@ -18,6 +19,20 @@ export const OrderModal = ({
   isLoading,
 }: OrderModalProps) => {
   const theme = useTheme();
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onCloseModal();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  });
 
   const orderTotalPrice = order.products.reduce(
     (acc, val) => acc + val.product.price,
