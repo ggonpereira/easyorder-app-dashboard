@@ -6,14 +6,15 @@ import { OrderModal } from '../OrderModal';
 import { Typography } from '../Typography';
 import { toast } from 'react-toastify';
 import * as S from './Board.styles';
+import { BoardProps } from './interfaces';
 
-interface BoardProps {
-  icon: string;
-  title: string;
-  orders: Order[];
-}
-
-export const Board = ({ icon, title, orders }: BoardProps) => {
+export const Board = ({
+  onChangeOrderStatus,
+  onCancelOrder,
+  icon,
+  title,
+  orders,
+}: BoardProps) => {
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,10 +31,25 @@ export const Board = ({ icon, title, orders }: BoardProps) => {
     setCurrentOrder(null);
   };
 
+  const handleChangeOrderStatus = async () => {
+    if (currentOrder?._id && onChangeOrderStatus) {
+      setIsLoading(true);
+
+      const status =
+        currentOrder?.status === 'WAITING' ? 'IN_PRODUCTION' : 'DONE';
+
+      await onChangeOrderStatus(currentOrder._id, status);
+
+      handleCloseOrderModal();
+      toast.success(`The status of the order was changed.`);
+    }
+  };
+
   const handleCancelOrder = async () => {
     if (currentOrder?._id) {
       setIsLoading(true);
-      await cancelOrder({ orderId: currentOrder?._id });
+
+      await onCancelOrder(currentOrder._id);
 
       handleCloseOrderModal();
       toast.success(`The order of table ${currentOrder.table} was canceled.`);
@@ -47,6 +63,7 @@ export const Board = ({ icon, title, orders }: BoardProps) => {
           order={currentOrder}
           onCloseModal={handleCloseOrderModal}
           onCancelOrder={handleCancelOrder}
+          onChangeOrderStatus={handleChangeOrderStatus}
           isLoading={isLoading}
         />
       )}

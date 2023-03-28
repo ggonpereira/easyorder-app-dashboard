@@ -13,6 +13,7 @@ import * as S from './OrderModal.styles';
 export const OrderModal = ({
   onCancelOrder,
   onCloseModal,
+  onChangeOrderStatus,
   order,
   isLoading,
 }: OrderModalProps) => {
@@ -35,7 +36,7 @@ export const OrderModal = ({
 
         <S.OrderStatus>
           <Typography color={theme.colors.gray[500]} variant="sm">
-            Order Status
+            Order OrderStatus
           </Typography>
 
           <Typography isBold>{formatOrderStatus(order.status)}</Typography>
@@ -81,9 +82,16 @@ export const OrderModal = ({
         </S.OrderOverview>
 
         <S.ActionsArea>
-          <S.Button type="button" variant="primary" disabled={isLoading}>
-            {formatActionButtonMessage(order.status)}
-          </S.Button>
+          {order.status !== 'DONE' && (
+            <S.Button
+              type="button"
+              variant="primary"
+              disabled={isLoading}
+              onClick={onChangeOrderStatus}
+            >
+              {formatActionButtonMessage(order.status)}
+            </S.Button>
+          )}
 
           <S.Button
             type="button"
@@ -91,6 +99,7 @@ export const OrderModal = ({
             onClick={onCancelOrder}
             disabled={isLoading}
           >
+            {order.status === 'DONE' ? 'Delete Order' : 'Cancel Order'}
             Cancel Order
           </S.Button>
         </S.ActionsArea>

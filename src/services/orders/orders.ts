@@ -1,5 +1,9 @@
 import { api } from '../api';
-import { CancelOrderRequestData, GetOrdersResponseData } from './interfaces';
+import {
+  CancelOrderRequestData,
+  ChangeOrderStatusRequestData,
+  GetOrdersResponseData,
+} from './interfaces';
 
 export async function getOrders() {
   const response = await api.get<GetOrdersResponseData>(`/orders`);
@@ -9,4 +13,13 @@ export async function getOrders() {
 
 export async function cancelOrder({ orderId }: CancelOrderRequestData) {
   await api.delete(`/orders/${orderId}`);
+}
+
+export async function changeOrderStatus({
+  orderId,
+  status,
+}: ChangeOrderStatusRequestData) {
+  await api.patch(`/orders/${orderId}`, {
+    status,
+  });
 }
