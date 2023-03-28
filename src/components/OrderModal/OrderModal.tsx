@@ -115,7 +115,6 @@ export const OrderModal = ({
             disabled={isLoading}
           >
             {order.status === 'DONE' ? 'Delete Order' : 'Cancel Order'}
-            Cancel Order
           </S.Button>
         </S.ActionsArea>
       </S.Container>
