@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import socketIo from 'socket.io-client';
+
 import {
   cancelOrder,
   changeOrderStatus,
@@ -7,6 +10,8 @@ import {
 import { Order, OrderStatus } from '../../types/Order';
 import { Board } from '../Board';
 import * as S from './Orders.styles';
+
+const WEBSOCKET_URL: string = import.meta.env.VITE_WEBSOCKET_URL;
 
 export const Orders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -19,6 +24,17 @@ export const Orders = () => {
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const socket = socketIo(WEBSOCKET_URL, {
+      transports: ['websocket'],
+    });
+
+    socket.on('orders@new', (order: Order) => {
+      setOrders((prevState) => [...prevState, order]);
+      toast.success(`A new order was created for the table ${order.table}`);
+    });
   }, []);
 
   const waitingOrders = orders.filter((order) => order.status === 'WAITING');

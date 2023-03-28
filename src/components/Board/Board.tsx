@@ -42,6 +42,7 @@ export const Board = ({
 
       handleCloseOrderModal();
       toast.success(`The status of the order was changed.`);
+      setIsLoading(false);
     }
   };
 
@@ -53,6 +54,7 @@ export const Board = ({
 
       handleCloseOrderModal();
       toast.success(`The order of table ${currentOrder.table} was canceled.`);
+      setIsLoading(false);
     }
   };
 
